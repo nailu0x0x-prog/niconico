@@ -30,32 +30,30 @@
             <span id="perClick" class="mini-value">1</span>
           </div>
           <div class="mini-stat">
-            <span class="mini-label">⏱ 自動収入</span>
+            <span class="mini-label">⏱ 自動収入/秒</span>
             <span id="perSecond" class="mini-value">0</span>
           </div>
         </div>
+
+        <section class="upgrades">
+          <h2>🛒 強化</h2>
+          <button id="upgradeClick" class="upgrade-button">
+            <span class="upgrade-icon">👆</span>
+            <span class="upgrade-text">
+              クリック力アップ
+              <small>価格: <span id="upgradeClickCost">10</span> コイン</small>
+            </span>
+          </button>
+        </section>
       </section>
 
-      <section class="upgrades">
-        <h2>🛒 ショップ</h2>
-        <button id="upgradeClick" class="upgrade-button">
-          <span class="upgrade-icon">👆</span>
-          <span class="upgrade-text">
-            クリック力アップ
-            <small>価格: <span id="upgradeClickCost">10</span> コイン</small>
-          </span>
-        </button>
-        <button id="buyAuto" class="upgrade-button">
-          <span class="upgrade-icon">🤖</span>
-          <span class="upgrade-text">
-            自動収入アップ
-            <small>価格: <span id="buyAutoCost">50</span> コイン</small>
-          </span>
-        </button>
+      <section class="factory-side">
+        <h2>🏭 自動生産レーン</h2>
+        <div id="factoryList" class="factory-list"></div>
       </section>
     </div>
 
-    <p class="hint">クリックしてコインを稼ごう！アップグレードで効率を上げられます💖</p>
+    <p class="hint">クリックしてコインを稼ごう！自動生産レーンを増やして放置でもコインを稼げます💖</p>
   </main>
 
   <script src="script.js"></script>

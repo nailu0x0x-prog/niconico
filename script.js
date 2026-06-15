@@ -2,30 +2,74 @@ const coinsEl = document.getElementById("coins");
 const perClickEl = document.getElementById("perClick");
 const perSecondEl = document.getElementById("perSecond");
 const upgradeClickCostEl = document.getElementById("upgradeClickCost");
-const buyAutoCostEl = document.getElementById("buyAutoCost");
 
 const clickButton = document.getElementById("clickButton");
 const upgradeClickButton = document.getElementById("upgradeClick");
-const buyAutoButton = document.getElementById("buyAuto");
 const fallContainer = document.getElementById("fallContainer");
+const factoryListEl = document.getElementById("factoryList");
+
+const factories = [
+  { id: "viewer", icon: "👀", name: "視聴者", desc: "ニコ動を見てコインを生成", baseCost: 15, production: 0.1, count: 0 },
+  { id: "comment", icon: "💬", name: "コメント職人", desc: "弾幕でコインを生成", baseCost: 100, production: 1, count: 0 },
+  { id: "broadcaster", icon: "🎤", name: "ニコ生主", desc: "生放送でコインを生成", baseCost: 1100, production: 8, count: 0 },
+  { id: "uploader", icon: "🎬", name: "動画投稿者", desc: "投稿動画でコインを生成", baseCost: 12000, production: 47, count: 0 },
+  { id: "premium", icon: "💎", name: "プレミアム会員", desc: "会員費でコインを生成", baseCost: 130000, production: 260, count: 0 },
+  { id: "server", icon: "🖥️", name: "サーバー増設", desc: "サーバーがコインを生成", baseCost: 1400000, production: 1400, count: 0 },
+];
 
 const state = {
   coins: 0,
   perClick: 1,
   perSecond: 0,
   upgradeClickCost: 10,
-  buyAutoCost: 50,
 };
 
+function factoryCost(factory) {
+  return Math.floor(factory.baseCost * Math.pow(1.15, factory.count));
+}
+
+function recalcPerSecond() {
+  state.perSecond = factories.reduce((sum, factory) => sum + factory.production * factory.count, 0);
+}
+
+function renderFactories() {
+  factoryListEl.innerHTML = "";
+  factories.forEach((factory) => {
+    const cost = factoryCost(factory);
+    const item = document.createElement("button");
+    item.className = "factory-item";
+    item.disabled = state.coins < cost;
+    item.innerHTML = `
+      <span class="factory-icon">${factory.icon}</span>
+      <span class="factory-info">
+        <span class="factory-name">${factory.name}</span>
+        <span class="factory-desc">${factory.desc}（+${factory.production}/秒）</span>
+      </span>
+      <span class="factory-count">×${factory.count}</span>
+      <span class="factory-cost">${cost} コイン</span>
+    `;
+    item.addEventListener("click", () => buyFactory(factory));
+    factoryListEl.appendChild(item);
+  });
+}
+
+function buyFactory(factory) {
+  const cost = factoryCost(factory);
+  if (state.coins < cost) return;
+  state.coins -= cost;
+  factory.count += 1;
+  recalcPerSecond();
+  updateDisplay();
+}
+
 function updateDisplay() {
-  coinsEl.textContent = state.coins;
+  coinsEl.textContent = Math.floor(state.coins);
   perClickEl.textContent = state.perClick;
-  perSecondEl.textContent = state.perSecond;
+  perSecondEl.textContent = state.perSecond.toFixed(1);
   upgradeClickCostEl.textContent = state.upgradeClickCost;
-  buyAutoCostEl.textContent = state.buyAutoCost;
 
   upgradeClickButton.disabled = state.coins < state.upgradeClickCost;
-  buyAutoButton.disabled = state.coins < state.buyAutoCost;
+  renderFactories();
 }
 
 function addCoins(amount) {
@@ -88,18 +132,10 @@ upgradeClickButton.addEventListener("click", () => {
   updateDisplay();
 });
 
-buyAutoButton.addEventListener("click", () => {
-  if (state.coins < state.buyAutoCost) return;
-  state.coins -= state.buyAutoCost;
-  state.perSecond += 1;
-  state.buyAutoCost = Math.floor(state.buyAutoCost * 2.2);
-  updateDisplay();
-});
-
 setInterval(() => {
   if (state.perSecond > 0) {
-    addCoins(state.perSecond);
+    addCoins(state.perSecond / 10);
   }
-}, 1000);
+}, 100);
 
 updateDisplay();
