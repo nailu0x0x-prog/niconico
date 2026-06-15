@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ニコニコクリッカー</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="container">
+    <h1>ニコニコクリッカー</h1>
+
+    <section class="stats">
+      <div class="stat">
+        <span class="label">所持コイン</span>
+        <span id="coins">0</span>
+      </div>
+      <div class="stat">
+        <span class="label">クリック単価</span>
+        <span id="perClick">1</span>
+      </div>
+      <div class="stat">
+        <span class="label">自動収入</span>
+        <span id="perSecond">0</span>
+      </div>
+    </section>
+
+    <div class="click-area">
+      <button id="clickButton" class="click-button">
+        <img src="nico-icon.png" alt="niconico icon" class="nico-icon-image" />
+      </button>
+      <div id="fallContainer" class="fall-container"></div>
+    </div>
+
+    <section class="upgrades">
+      <button id="upgradeClick" class="upgrade-button">クリック力アップ<br><small>価格: <span id="upgradeClickCost">10</span></small></button>
+      <button id="buyAuto" class="upgrade-button">自動収入アップ<br><small>価格: <span id="buyAutoCost">50</span></small></button>
+    </section>
+
+    <p class="hint">クリックしてコインを稼ごう！アップグレードで効率を上げられます。</p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

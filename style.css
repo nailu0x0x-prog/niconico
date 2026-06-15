@@ -1,0 +1,149 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at top, #fdf6e3, #ffe4b5);
+  font-family: "Hiragino Kaku Gothic Pro", Meiryo, sans-serif;
+  color: #333;
+}
+
+.container {
+  position: relative;
+  width: min(420px, 90vw);
+  padding: 2rem;
+  text-align: center;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+h1 {
+  margin: 0 0 1.5rem;
+  font-size: clamp(2rem, 4vw, 2.6rem);
+}
+
+.stats {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat {
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem 1.2rem;
+  border-radius: 16px;
+  background: #fff8dc;
+  border: 1px solid #ffd699;
+}
+
+.stat .label {
+  font-weight: 700;
+}
+
+.click-area {
+  position: relative;
+  margin: 0 auto 1.5rem;
+  width: min(320px, 100%);
+  min-height: 220px;
+}
+
+.click-button {
+  width: 100%;
+  height: 220px;
+  border: none;
+  border-radius: 36px;
+  background: radial-gradient(circle at top, #ffda69, #ff8c00);
+  color: #3b1e00;
+  font-size: 1.4rem;
+  font-weight: 800;
+  cursor: pointer;
+  box-shadow: 0 16px 30px rgba(255, 150, 0, 0.32);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.nico-icon-image {
+  width: 70%;
+  max-width: 220px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+}
+
+.click-button:hover {
+  transform: translateY(-1px);
+}
+
+.fall-container {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.fall-item {
+  position: absolute;
+  font-size: 1.2rem;
+  color: #ff6f00;
+  opacity: 0.95;
+  transform: translateX(-50%) translateY(0);
+  animation: fall-and-fade 1.3s ease-out forwards;
+}
+
+@keyframes fall-and-fade {
+  0% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0) rotate(0deg);
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(220px) rotate(45deg);
+  }
+}
+
+.upgrades {
+  display: grid;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.upgrade-button {
+  border: none;
+  border-radius: 18px;
+  padding: 1rem;
+  background: #fff3d6;
+  cursor: pointer;
+  font-size: 1rem;
+  color: #5c3300;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+}
+
+.upgrade-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.upgrade-button small {
+  display: block;
+  margin-top: 0.4rem;
+  font-size: 0.9rem;
+  color: #8a5c27;
+}
+
+.hint {
+  margin-top: 1.5rem;
+  color: #6b4b1f;
+}
