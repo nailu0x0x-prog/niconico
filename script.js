@@ -7,6 +7,11 @@ const clickButton = document.getElementById("clickButton");
 const upgradeClickButton = document.getElementById("upgradeClick");
 const fallContainer = document.getElementById("fallContainer");
 const factoryListEl = document.getElementById("factoryList");
+const audienceEl = document.getElementById("audience");
+
+const penlightColors = ["🔴", "🟠", "🟡", "🟢", "🔵", "🟣"];
+const MAX_AUDIENCE = 40;
+let lastAudienceCount = -1;
 
 const factories = [
   { id: "viewer", icon: "👀", name: "視聴者", desc: "ニコ動を見てコインを生成", baseCost: 15, production: 0.1, count: 0 },
@@ -54,6 +59,30 @@ function renderFactories() {
   });
 }
 
+function renderAudience() {
+  const viewerFactory = factories.find((factory) => factory.id === "viewer");
+  const count = Math.min(viewerFactory.count, MAX_AUDIENCE);
+  if (count === lastAudienceCount) return;
+  lastAudienceCount = count;
+
+  audienceEl.innerHTML = "";
+  for (let i = 0; i < count; i += 1) {
+    const person = document.createElement("span");
+    person.className = "audience-person";
+    person.textContent = "🙋";
+    person.style.filter = `brightness(${(0.5 + Math.random() * 0.9).toFixed(2)})`;
+    person.style.animationDelay = `${(Math.random() * 0.8).toFixed(2)}s`;
+
+    const penlight = document.createElement("span");
+    penlight.className = "penlight";
+    penlight.textContent = penlightColors[Math.floor(Math.random() * penlightColors.length)];
+    penlight.style.animationDelay = `${(Math.random() * 0.6).toFixed(2)}s`;
+
+    person.appendChild(penlight);
+    audienceEl.appendChild(person);
+  }
+}
+
 function updateFactoryDisplay() {
   factories.forEach((factory) => {
     const cost = factoryCost(factory);
@@ -80,6 +109,7 @@ function updateDisplay() {
 
   upgradeClickButton.disabled = state.coins < state.upgradeClickCost;
   updateFactoryDisplay();
+  renderAudience();
 }
 
 function addCoins(amount) {
