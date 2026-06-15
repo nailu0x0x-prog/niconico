@@ -415,6 +415,120 @@ h2 {
   100% { opacity: 1; }
 }
 
+.ranking-button {
+  border: 2px solid #eaeaea;
+  border-radius: 14px;
+  padding: 0.5rem 0.8rem;
+  background: #fafafa;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #555;
+  font-family: inherit;
+  transition: transform 0.08s ease, background 0.15s ease;
+}
+
+.ranking-button:hover {
+  transform: translateY(-2px);
+  background: #f0f0f0;
+}
+
+.ranking-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  align-items: center;
+  justify-content: center;
+  z-index: 30;
+}
+
+.ranking-modal.open {
+  display: flex;
+}
+
+.ranking-box {
+  position: relative;
+  width: min(360px, 90vw);
+  max-height: 80vh;
+  overflow-y: auto;
+  background: #ffffff;
+  border-radius: 20px;
+  border: 3px solid #ececec;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.ranking-close {
+  position: absolute;
+  top: 0.6rem;
+  right: 0.6rem;
+  border: none;
+  background: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+  color: #999;
+}
+
+.ranking-list {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  text-align: left;
+}
+
+.ranking-list li {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0.8rem;
+  border-radius: 12px;
+  background: #fafafa;
+  border: 2px solid #eaeaea;
+  font-weight: 800;
+  color: #444;
+}
+
+.ranking-form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.ranking-form input {
+  border: 2px solid #eaeaea;
+  border-radius: 12px;
+  padding: 0.6rem;
+  font-size: 1rem;
+  font-family: inherit;
+}
+
+.ranking-form button {
+  border: 2px solid #eaeaea;
+  border-radius: 12px;
+  padding: 0.6rem;
+  font-size: 1rem;
+  font-weight: 800;
+  background: #fafafa;
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.08s ease, background 0.15s ease;
+}
+
+.ranking-form button:hover {
+  transform: translateY(-2px);
+  background: #f0f0f0;
+}
+
+.ranking-message {
+  margin: 0.6rem 0 0;
+  font-size: 0.85rem;
+  color: #888;
+  min-height: 1.2em;
+}
+
 .nikoniko-video {
   display: none;
 }

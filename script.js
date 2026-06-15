@@ -265,5 +265,73 @@ setInterval(() => {
   }
 }, 100);
 
+const SUPABASE_URL = "https://lvonigoeobfdqmokwvpg.supabase.co";
+const SUPABASE_ANON_KEY = "sb_publishable_YFEzQSTtD9sWI0fhtsYLlA_1mYRvXNy";
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+const openRankingButton = document.getElementById("openRanking");
+const closeRankingButton = document.getElementById("closeRanking");
+const rankingModal = document.getElementById("rankingModal");
+const rankingList = document.getElementById("rankingList");
+const rankingForm = document.getElementById("rankingForm");
+const rankingNameInput = document.getElementById("rankingName");
+const rankingMessage = document.getElementById("rankingMessage");
+
+async function loadRanking() {
+  rankingList.innerHTML = "<li>読み込み中...</li>";
+  const { data, error } = await supabaseClient
+    .from("rankings")
+    .select("name, coins")
+    .order("coins", { ascending: false })
+    .limit(10);
+
+  if (error) {
+    rankingList.innerHTML = "<li>ランキングの取得に失敗しました</li>";
+    return;
+  }
+
+  rankingList.innerHTML = "";
+  data.forEach((row, index) => {
+    const li = document.createElement("li");
+    li.innerHTML = `<span>${index + 1}. ${row.name}</span><span>${row.coins} コイン</span>`;
+    rankingList.appendChild(li);
+  });
+}
+
+openRankingButton.addEventListener("click", () => {
+  rankingModal.classList.add("open");
+  rankingMessage.textContent = "";
+  loadRanking();
+});
+
+closeRankingButton.addEventListener("click", () => {
+  rankingModal.classList.remove("open");
+});
+
+rankingModal.addEventListener("click", (event) => {
+  if (event.target === rankingModal) {
+    rankingModal.classList.remove("open");
+  }
+});
+
+rankingForm.addEventListener("submit", async (event) => {
+  event.preventDefault();
+  const name = rankingNameInput.value.trim();
+  if (!name) return;
+
+  rankingMessage.textContent = "登録中...";
+  const { error } = await supabaseClient
+    .from("rankings")
+    .insert({ name, coins: Math.floor(state.coins) });
+
+  if (error) {
+    rankingMessage.textContent = "登録に失敗しました";
+    return;
+  }
+
+  rankingMessage.textContent = "登録しました！";
+  loadRanking();
+});
+
 renderFactories();
 updateDisplay();

@@ -17,6 +17,8 @@
           <span id="coins" class="coin-value">0</span>
         </div>
 
+        <button id="openRanking" class="ranking-button">🏆 ランキング</button>
+
         <div class="click-area">
           <button id="clickButton" class="click-button">
             <img src="niconico.png" alt="niconico icon" class="nico-icon-image" />
@@ -65,9 +67,23 @@
 
   <div id="audience" class="audience"></div>
 
+  <div id="rankingModal" class="ranking-modal">
+    <div class="ranking-box">
+      <button id="closeRanking" class="ranking-close">✕</button>
+      <h2>🏆 ランキング TOP10</h2>
+      <ol id="rankingList" class="ranking-list"></ol>
+      <form id="rankingForm" class="ranking-form">
+        <input id="rankingName" type="text" maxlength="12" placeholder="名前を入力" required />
+        <button type="submit">現在のコインで登録</button>
+      </form>
+      <p id="rankingMessage" class="ranking-message"></p>
+    </div>
+  </div>
+
   <video id="nikonikoVideo" src="nikoniko.mp4" class="nikoniko-video" muted playsinline></video>
   <canvas id="nikonikoCanvas" class="nikoniko-canvas"></canvas>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="script.js"></script>
 </body>
 </html>
