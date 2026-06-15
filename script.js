@@ -35,10 +35,8 @@ function recalcPerSecond() {
 function renderFactories() {
   factoryListEl.innerHTML = "";
   factories.forEach((factory) => {
-    const cost = factoryCost(factory);
     const item = document.createElement("button");
     item.className = "factory-item";
-    item.disabled = state.coins < cost;
     item.innerHTML = `
       <span class="factory-icon">${factory.icon}</span>
       <span class="factory-info">
@@ -46,10 +44,22 @@ function renderFactories() {
         <span class="factory-desc">${factory.desc}（+${factory.production}/秒）</span>
       </span>
       <span class="factory-count">×${factory.count}</span>
-      <span class="factory-cost">${cost} コイン</span>
+      <span class="factory-cost">${factoryCost(factory)} コイン</span>
     `;
     item.addEventListener("click", () => buyFactory(factory));
+    factory.el = item;
+    factory.countEl = item.querySelector(".factory-count");
+    factory.costEl = item.querySelector(".factory-cost");
     factoryListEl.appendChild(item);
+  });
+}
+
+function updateFactoryDisplay() {
+  factories.forEach((factory) => {
+    const cost = factoryCost(factory);
+    factory.countEl.textContent = `×${factory.count}`;
+    factory.costEl.textContent = `${cost} コイン`;
+    factory.el.disabled = state.coins < cost;
   });
 }
 
@@ -69,7 +79,7 @@ function updateDisplay() {
   upgradeClickCostEl.textContent = state.upgradeClickCost;
 
   upgradeClickButton.disabled = state.coins < state.upgradeClickCost;
-  renderFactories();
+  updateFactoryDisplay();
 }
 
 function addCoins(amount) {
@@ -138,4 +148,5 @@ setInterval(() => {
   }
 }, 100);
 
+renderFactories();
 updateDisplay();
