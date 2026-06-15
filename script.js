@@ -286,7 +286,8 @@ async function loadRanking() {
     .limit(10);
 
   if (error) {
-    rankingList.innerHTML = "<li>ランキングの取得に失敗しました</li>";
+    console.error("loadRanking error:", error);
+    rankingList.innerHTML = `<li>取得失敗: ${error.message}</li>`;
     return;
   }
 
@@ -325,7 +326,8 @@ rankingForm.addEventListener("submit", async (event) => {
     .insert({ name, coins: Math.floor(state.coins) });
 
   if (error) {
-    rankingMessage.textContent = "登録に失敗しました";
+    console.error("submit ranking error:", error);
+    rankingMessage.textContent = `登録失敗: ${error.message}`;
     return;
   }
 
