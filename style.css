@@ -1,3 +1,10 @@
+@font-face {
+  font-family: "YurukaStd";
+  src: url("FOT-YurukaStd-UB.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -9,7 +16,7 @@ body {
   align-items: center;
   justify-content: center;
   background: linear-gradient(135deg, #ffffff, #f4f4f6 50%, #ffffff);
-  font-family: "M PLUS Rounded 1c", "Hiragino Kaku Gothic Pro", Meiryo, sans-serif;
+  font-family: "YurukaStd", "M PLUS Rounded 1c", "Hiragino Kaku Gothic Pro", Meiryo, sans-serif;
   color: #3a3a3a;
   padding: 1rem;
 }
@@ -27,7 +34,6 @@ body {
 
 h1 {
   margin: 0 0 1.2rem;
-  font-family: "Yusei Magic", "M PLUS Rounded 1c", sans-serif;
   font-size: clamp(1.6rem, 4.5vw, 2.4rem);
   color: #333;
   display: flex;
