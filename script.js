@@ -69,15 +69,20 @@ function renderAudience() {
   for (let i = 0; i < count; i += 1) {
     const person = document.createElement("span");
     person.className = "audience-person";
-    person.textContent = "🙋";
-    person.style.filter = `brightness(${(0.5 + Math.random() * 0.9).toFixed(2)})`;
     person.style.animationDelay = `${(Math.random() * 0.8).toFixed(2)}s`;
+
+    const img = document.createElement("img");
+    img.src = "audience-person.png";
+    img.alt = "観客";
+    img.className = "audience-person-img";
+    img.style.filter = `brightness(${(0.5 + Math.random() * 0.9).toFixed(2)})`;
 
     const penlight = document.createElement("span");
     penlight.className = "penlight";
     penlight.textContent = penlightColors[Math.floor(Math.random() * penlightColors.length)];
     penlight.style.animationDelay = `${(Math.random() * 0.6).toFixed(2)}s`;
 
+    person.appendChild(img);
     person.appendChild(penlight);
     audienceEl.appendChild(person);
   }
