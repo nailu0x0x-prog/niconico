@@ -2,9 +2,11 @@ const coinsEl = document.getElementById("coins");
 const perClickEl = document.getElementById("perClick");
 const perSecondEl = document.getElementById("perSecond");
 const upgradeClickCostEl = document.getElementById("upgradeClickCost");
+const autoClickCostEl = document.getElementById("autoClickCost");
 
 const clickButton = document.getElementById("clickButton");
 const upgradeClickButton = document.getElementById("upgradeClick");
+const buyAutoClickerButton = document.getElementById("buyAutoClicker");
 const fallContainer = document.getElementById("fallContainer");
 const factoryListEl = document.getElementById("factoryList");
 const audienceEl = document.getElementById("audience");
@@ -27,7 +29,11 @@ const state = {
   perClick: 1,
   perSecond: 0,
   upgradeClickCost: 10,
+  autoClickLevel: 0,
+  autoClickCost: 50000,
 };
+
+let autoClickInterval = null;
 
 function factoryCost(factory) {
   return Math.floor(factory.baseCost * Math.pow(1.15, factory.count));
@@ -167,7 +173,10 @@ function updateDisplay() {
   perSecondEl.textContent = state.perSecond.toFixed(1);
   upgradeClickCostEl.textContent = state.upgradeClickCost;
 
+  autoClickCostEl.textContent = state.autoClickCost;
+
   upgradeClickButton.disabled = state.coins < state.upgradeClickCost;
+  buyAutoClickerButton.disabled = state.coins < state.autoClickCost;
   updateFactoryDisplay();
   renderAudience();
 }
@@ -177,12 +186,14 @@ function addCoins(amount) {
   updateDisplay();
 }
 
-clickButton.addEventListener("click", () => {
+function performClick() {
   addCoins(state.perClick);
   spawnFallingNico(Math.min(state.perClick, 5));
   spawnFloatingScore();
   bounceButton();
-});
+}
+
+clickButton.addEventListener("click", performClick);
 
 function bounceButton() {
   clickButton.classList.remove("bounce");
@@ -229,6 +240,22 @@ upgradeClickButton.addEventListener("click", () => {
   state.coins -= state.upgradeClickCost;
   state.perClick += 1;
   state.upgradeClickCost = Math.floor(state.upgradeClickCost * 1.8);
+  updateDisplay();
+});
+
+function applyAutoClickInterval() {
+  if (autoClickInterval) clearInterval(autoClickInterval);
+  if (state.autoClickLevel <= 0) return;
+  const intervalMs = Math.max(1000 / state.autoClickLevel, 50);
+  autoClickInterval = setInterval(performClick, intervalMs);
+}
+
+buyAutoClickerButton.addEventListener("click", () => {
+  if (state.coins < state.autoClickCost) return;
+  state.coins -= state.autoClickCost;
+  state.autoClickLevel += 1;
+  state.autoClickCost = Math.floor(state.autoClickCost * 3);
+  applyAutoClickInterval();
   updateDisplay();
 });
 
