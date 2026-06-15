@@ -4,40 +4,61 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ニコニコクリッカー</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Yusei+Magic&family=M+PLUS+Rounded+1c:wght@500;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
   <main class="container">
-    <h1>ニコニコクリッカー</h1>
+    <h1>🎀 ニコニコクリッカー 🎀</h1>
 
-    <section class="stats">
-      <div class="stat">
-        <span class="label">所持コイン</span>
-        <span id="coins">0</span>
-      </div>
-      <div class="stat">
-        <span class="label">クリック単価</span>
-        <span id="perClick">1</span>
-      </div>
-      <div class="stat">
-        <span class="label">自動収入</span>
-        <span id="perSecond">0</span>
-      </div>
-    </section>
+    <div class="layout">
+      <section class="click-side">
+        <div class="coin-display">
+          <span class="coin-label">所持コイン</span>
+          <span id="coins" class="coin-value">0</span>
+        </div>
 
-    <div class="click-area">
-      <button id="clickButton" class="click-button">
-        <img src="nico-icon.png" alt="niconico icon" class="nico-icon-image" />
-      </button>
-      <div id="fallContainer" class="fall-container"></div>
+        <div class="click-area">
+          <button id="clickButton" class="click-button">
+            <img src="nico-icon.png" alt="niconico icon" class="nico-icon-image" />
+          </button>
+          <div id="fallContainer" class="fall-container"></div>
+        </div>
+
+        <div class="mini-stats">
+          <div class="mini-stat">
+            <span class="mini-label">✨ クリック単価</span>
+            <span id="perClick" class="mini-value">1</span>
+          </div>
+          <div class="mini-stat">
+            <span class="mini-label">⏱ 自動収入</span>
+            <span id="perSecond" class="mini-value">0</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="upgrades">
+        <h2>🛒 ショップ</h2>
+        <button id="upgradeClick" class="upgrade-button">
+          <span class="upgrade-icon">👆</span>
+          <span class="upgrade-text">
+            クリック力アップ
+            <small>価格: <span id="upgradeClickCost">10</span> コイン</small>
+          </span>
+        </button>
+        <button id="buyAuto" class="upgrade-button">
+          <span class="upgrade-icon">🤖</span>
+          <span class="upgrade-text">
+            自動収入アップ
+            <small>価格: <span id="buyAutoCost">50</span> コイン</small>
+          </span>
+        </button>
+      </section>
     </div>
 
-    <section class="upgrades">
-      <button id="upgradeClick" class="upgrade-button">クリック力アップ<br><small>価格: <span id="upgradeClickCost">10</span></small></button>
-      <button id="buyAuto" class="upgrade-button">自動収入アップ<br><small>価格: <span id="buyAutoCost">50</span></small></button>
-    </section>
-
-    <p class="hint">クリックしてコインを稼ごう！アップグレードで効率を上げられます。</p>
+    <p class="hint">クリックしてコインを稼ごう！アップグレードで効率を上げられます💖</p>
   </main>
 
   <script src="script.js"></script>

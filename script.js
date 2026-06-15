@@ -36,7 +36,29 @@ function addCoins(amount) {
 clickButton.addEventListener("click", () => {
   addCoins(state.perClick);
   spawnFallingNico(Math.min(state.perClick, 5));
+  spawnFloatingScore();
+  bounceButton();
 });
+
+function bounceButton() {
+  clickButton.classList.remove("bounce");
+  void clickButton.offsetWidth;
+  clickButton.classList.add("bounce");
+}
+
+function spawnFloatingScore() {
+  const item = document.createElement("span");
+  item.className = "fall-item";
+  item.textContent = `+${state.perClick}`;
+  const left = 30 + Math.random() * 40;
+  item.style.left = `${left}%`;
+  item.style.top = `40%`;
+  item.style.fontSize = "1.4rem";
+  item.style.transform = "translateX(-50%) translateY(0) rotate(0deg)";
+
+  fallContainer.appendChild(item);
+  item.addEventListener("animationend", () => item.remove());
+}
 
 function spawnFallingNico(count) {
   for (let i = 0; i < count; i += 1) {
