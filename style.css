@@ -414,3 +414,20 @@ h2 {
   0% { opacity: 0.35; }
   100% { opacity: 1; }
 }
+
+.nikoniko-video {
+  display: none;
+}
+
+.nikoniko-canvas {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(420px, 80vw);
+  height: auto;
+  opacity: 0;
+  pointer-events: none;
+  z-index: 20;
+  transition: opacity 1s ease;
+}

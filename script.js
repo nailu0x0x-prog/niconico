@@ -104,6 +104,61 @@ function buyFactory(factory) {
   factory.count += 1;
   recalcPerSecond();
   updateDisplay();
+
+  if (factory.id === "comment") {
+    playNikoNikoEffect();
+  }
+}
+
+const nikonikoVideo = document.getElementById("nikonikoVideo");
+const nikonikoCanvas = document.getElementById("nikonikoCanvas");
+const nikonikoCtx = nikonikoCanvas.getContext("2d");
+let nikonikoRaf = null;
+let nikonikoTimers = [];
+
+function playNikoNikoEffect() {
+  nikonikoTimers.forEach((timer) => clearTimeout(timer));
+  nikonikoTimers = [];
+  if (nikonikoRaf) cancelAnimationFrame(nikonikoRaf);
+
+  nikonikoVideo.currentTime = 0;
+  nikonikoVideo.play();
+  nikonikoCanvas.style.transition = "none";
+  nikonikoCanvas.style.opacity = "1";
+
+  const drawFrame = () => {
+    if (nikonikoVideo.paused || nikonikoVideo.ended) return;
+    nikonikoCanvas.width = nikonikoVideo.videoWidth;
+    nikonikoCanvas.height = nikonikoVideo.videoHeight;
+    nikonikoCtx.drawImage(nikonikoVideo, 0, 0, nikonikoCanvas.width, nikonikoCanvas.height);
+
+    const frame = nikonikoCtx.getImageData(0, 0, nikonikoCanvas.width, nikonikoCanvas.height);
+    const data = frame.data;
+    for (let i = 0; i < data.length; i += 4) {
+      const lum = (data[i] + data[i + 1] + data[i + 2]) / 3;
+      if (lum < 30) {
+        data[i + 3] = 0;
+      } else {
+        const gray = lum * 0.6;
+        data[i] = gray;
+        data[i + 1] = gray;
+        data[i + 2] = gray;
+      }
+    }
+    nikonikoCtx.putImageData(frame, 0, 0);
+
+    nikonikoRaf = requestAnimationFrame(drawFrame);
+  };
+  nikonikoRaf = requestAnimationFrame(drawFrame);
+
+  nikonikoTimers.push(setTimeout(() => {
+    nikonikoCanvas.style.transition = "opacity 1s ease";
+    nikonikoCanvas.style.opacity = "0";
+    nikonikoTimers.push(setTimeout(() => {
+      nikonikoVideo.pause();
+      if (nikonikoRaf) cancelAnimationFrame(nikonikoRaf);
+    }, 1000));
+  }, 7000));
 }
 
 function updateDisplay() {
