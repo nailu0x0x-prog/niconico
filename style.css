@@ -8,9 +8,9 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: linear-gradient(135deg, #ffd6f0, #d6e9ff 50%, #fff6d6);
+  background: linear-gradient(135deg, #ffffff, #f4f4f6 50%, #ffffff);
   font-family: "M PLUS Rounded 1c", "Hiragino Kaku Gothic Pro", Meiryo, sans-serif;
-  color: #5a3d63;
+  color: #3a3a3a;
   padding: 1rem;
 }
 
@@ -20,23 +20,31 @@ body {
   padding: 1.8rem;
   text-align: center;
   border-radius: 28px;
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 20px 50px rgba(180, 120, 200, 0.25);
-  border: 3px solid #ffd1ec;
+  background: #ffffff;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
+  border: 3px solid #ececec;
 }
 
 h1 {
   margin: 0 0 1.2rem;
   font-family: "Yusei Magic", "M PLUS Rounded 1c", sans-serif;
   font-size: clamp(1.6rem, 4.5vw, 2.4rem);
-  color: #ff6fae;
-  text-shadow: 2px 2px 0 #ffe1f3;
+  color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.title-icon {
+  width: clamp(1.8rem, 6vw, 2.6rem);
+  height: auto;
 }
 
 h2 {
   margin: 0 0 1rem;
   font-size: 1.2rem;
-  color: #b06bd1;
+  color: #555;
 }
 
 .layout {
@@ -65,21 +73,20 @@ h2 {
   gap: 0.2rem;
   padding: 0.8rem 1rem;
   border-radius: 20px;
-  background: linear-gradient(135deg, #fff0b3, #ffd6f0);
-  border: 2px solid #ffe48a;
+  background: #fafafa;
+  border: 2px solid #eaeaea;
 }
 
 .coin-label {
   font-size: 0.85rem;
   font-weight: 700;
-  color: #b3811f;
+  color: #888;
 }
 
 .coin-value {
   font-size: clamp(1.8rem, 6vw, 2.6rem);
   font-weight: 800;
-  color: #ff8a00;
-  text-shadow: 1px 1px 0 #fff3d6;
+  color: #333;
 }
 
 .click-area {
@@ -94,12 +101,13 @@ h2 {
   height: 200px;
   border: none;
   border-radius: 50%;
-  background: radial-gradient(circle at 35% 30%, #ffe9a8, #ff9ed8 60%, #ff6fae);
+  background: #ffffff;
   color: #3b1e00;
   font-size: 1.4rem;
   font-weight: 800;
   cursor: pointer;
-  box-shadow: 0 14px 0 #ffb6dd, 0 18px 30px rgba(255, 110, 180, 0.4);
+  box-shadow: 0 14px 0 #e8e8e8, 0 18px 30px rgba(0, 0, 0, 0.12);
+  border: 3px solid #ececec;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -110,7 +118,7 @@ h2 {
 
 .click-button:active {
   transform: translateY(8px) scale(0.97);
-  box-shadow: 0 6px 0 #ffb6dd, 0 8px 16px rgba(255, 110, 180, 0.4);
+  box-shadow: 0 6px 0 #e8e8e8, 0 8px 16px rgba(0, 0, 0, 0.12);
 }
 
 .click-button.bounce {
@@ -143,11 +151,14 @@ h2 {
   position: absolute;
   font-size: 1.2rem;
   font-weight: 800;
-  color: #ff6fae;
+  color: #555;
   opacity: 0.95;
   transform: translateX(-50%) translateY(0);
   animation: fall-and-fade 1.3s ease-out forwards;
-  text-shadow: 1px 1px 0 #fff;
+}
+
+.fall-icon {
+  height: auto;
 }
 
 @keyframes fall-and-fade {
@@ -177,20 +188,20 @@ h2 {
   gap: 0.2rem;
   padding: 0.6rem;
   border-radius: 16px;
-  background: #f0eaff;
-  border: 2px solid #d9c9ff;
+  background: #fafafa;
+  border: 2px solid #eaeaea;
 }
 
 .mini-label {
   font-size: 0.75rem;
   font-weight: 700;
-  color: #8a6bd1;
+  color: #888;
 }
 
 .mini-value {
   font-size: 1.3rem;
   font-weight: 800;
-  color: #7a4fd1;
+  color: #333;
 }
 
 .upgrades {
@@ -199,30 +210,30 @@ h2 {
   gap: 0.8rem;
   padding: 1rem;
   border-radius: 20px;
-  background: #fff8ff;
-  border: 2px solid #ffd1ec;
+  background: #fafafa;
+  border: 2px solid #eaeaea;
 }
 
 .upgrade-button {
   display: flex;
   align-items: center;
   gap: 0.7rem;
-  border: 2px solid #ffd1ec;
+  border: 2px solid #eaeaea;
   border-radius: 18px;
   padding: 0.7rem 0.9rem;
   background: #ffffff;
   cursor: pointer;
   font-size: 1rem;
-  color: #5c3300;
+  color: #444;
   text-align: left;
-  box-shadow: 0 6px 12px rgba(255, 150, 200, 0.18);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
   transition: transform 0.08s ease, background 0.15s ease;
   font-family: inherit;
 }
 
 .upgrade-button:hover:not(:disabled) {
   transform: translateY(-2px);
-  background: #fff0fa;
+  background: #f5f5f5;
 }
 
 .upgrade-button:active:not(:disabled) {
@@ -247,12 +258,12 @@ h2 {
 .upgrade-button small {
   margin-top: 0.3rem;
   font-size: 0.85rem;
-  color: #c084c0;
+  color: #999;
   font-weight: 700;
 }
 
 .hint {
   margin-top: 1.2rem;
-  color: #b06bd1;
+  color: #888;
   font-size: 0.9rem;
 }

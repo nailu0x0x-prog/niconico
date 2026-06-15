@@ -62,15 +62,17 @@ function spawnFloatingScore() {
 
 function spawnFallingNico(count) {
   for (let i = 0; i < count; i += 1) {
-    const item = document.createElement("span");
-    item.className = "fall-item";
-    item.textContent = "にこ";
+    const item = document.createElement("img");
+    item.src = "niconico.png";
+    item.alt = "にこ";
+    item.className = "fall-item fall-icon";
     const left = 20 + Math.random() * 60;
     const delay = Math.random() * 0.15;
     item.style.left = `${left}%`;
     item.style.top = `10%`;
     item.style.animationDelay = `${delay}s`;
-    item.style.fontSize = `${1.1 + Math.random() * 0.5}rem`;
+    const size = 1.1 + Math.random() * 0.5;
+    item.style.width = `${size}rem`;
     item.style.transform = `translateX(-50%) translateY(0) rotate(${Math.random() * 40 - 20}deg)`;
 
     fallContainer.appendChild(item);
