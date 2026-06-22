@@ -111,9 +111,152 @@ function buyFactory(factory) {
   recalcPerSecond();
   updateDisplay();
 
-  if (factory.id === "comment") {
-    playNikoNikoEffect();
+  if (factory.id === "comment")      playNikoNikoEffect();
+  if (factory.id === "broadcaster")  playBroadcasterEffect();
+  if (factory.id === "uploader")     playUploaderEffect();
+  if (factory.id === "premium")      playPremiumEffect();
+  if (factory.id === "server")       playServerEffect();
+}
+
+// ===== ニコ生主: 弾幕エフェクト =====
+const danmakuTexts = ["草", "ｗｗｗｗ", "神配信！", "来たー！", "えも", "わかる", "すこ", "888888", "いいね！", "最高！", "ｷﾀ━(ﾟ∀ﾟ)━!!", "ｗ", "3", "ワロタ", "リスナーです"];
+const danmakuColors = ["#222", "#e60012", "#0066cc", "#007a3d", "#cc6600", "#9900cc", "#cc0066"];
+
+function playBroadcasterEffect() {
+  let overlay = document.getElementById("danmakuOverlay");
+  if (!overlay) {
+    overlay = document.createElement("div");
+    overlay.id = "danmakuOverlay";
+    overlay.className = "danmaku-overlay";
+    document.body.appendChild(overlay);
   }
+
+  const count = 8 + Math.floor(Math.random() * 6);
+  for (let i = 0; i < count; i++) {
+    setTimeout(() => {
+      const el = document.createElement("div");
+      el.className = "danmaku-comment";
+      el.textContent = danmakuTexts[Math.floor(Math.random() * danmakuTexts.length)];
+      el.style.top = `${5 + Math.random() * 82}%`;
+      el.style.color = danmakuColors[Math.floor(Math.random() * danmakuColors.length)];
+      const duration = 2.2 + Math.random() * 1.5;
+      el.style.animationDuration = `${duration}s`;
+      overlay.appendChild(el);
+      el.addEventListener("animationend", () => el.remove());
+    }, i * 90);
+  }
+}
+
+// ===== 動画投稿者: 再生数カウンターアニメ =====
+function playUploaderEffect() {
+  let popup = document.getElementById("viewCountPopup");
+  if (!popup) {
+    popup = document.createElement("div");
+    popup.id = "viewCountPopup";
+    popup.className = "view-count-popup";
+    popup.innerHTML = `<div class="vc-title">🎬 動画投稿完了！</div><div class="vc-count" id="vcCount">0</div><div class="vc-title">再生数</div>`;
+    document.body.appendChild(popup);
+  }
+
+  const vcCount = document.getElementById("vcCount");
+  const target = (10 + Math.floor(Math.random() * 490)) * 10000;
+  const duration = 1400;
+  const startTime = performance.now();
+
+  popup.classList.add("show");
+  vcCount.textContent = "0";
+
+  const tick = (now) => {
+    const progress = Math.min((now - startTime) / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = Math.floor(eased * target);
+    vcCount.textContent = current >= 10000 ? `${Math.floor(current / 10000)}万 回` : `${current} 回`;
+    if (progress < 1) {
+      requestAnimationFrame(tick);
+    } else {
+      vcCount.textContent = `${Math.floor(target / 10000)}万 回`;
+      setTimeout(() => popup.classList.remove("show"), 1800);
+    }
+  };
+  requestAnimationFrame(tick);
+}
+
+// ===== プレミアム会員: ゴールドフラッシュ =====
+function playPremiumEffect() {
+  let flash = document.getElementById("goldFlash");
+  if (!flash) {
+    flash = document.createElement("div");
+    flash.id = "goldFlash";
+    flash.className = "gold-flash";
+    document.body.appendChild(flash);
+  }
+
+  flash.classList.remove("active");
+  void flash.offsetWidth;
+  flash.classList.add("active");
+  flash.addEventListener("animationend", () => flash.classList.remove("active"), { once: true });
+
+  const starEmojis = ["✨", "💎", "⭐", "🌟"];
+  for (let i = 0; i < 16; i++) {
+    setTimeout(() => {
+      const star = document.createElement("div");
+      star.textContent = starEmojis[Math.floor(Math.random() * starEmojis.length)];
+      star.style.cssText = `
+        position: fixed;
+        left: ${Math.random() * 100}vw;
+        top: ${Math.random() * 100}vh;
+        font-size: ${1 + Math.random() * 1.5}rem;
+        pointer-events: none;
+        z-index: 55;
+        animation: premium-star-pop 0.9s ease-out forwards;
+      `;
+      document.body.appendChild(star);
+      star.addEventListener("animationend", () => star.remove());
+    }, i * 55);
+  }
+}
+
+// ===== サーバー増設: 画面シェイク + ターミナル =====
+const serverLines = [
+  "$ sudo deploy niconico-server",
+  "> Downloading packages...",
+  "> Configuring network...",
+  "> Starting services...",
+  "✅ Server deployed! +1400 coins/sec",
+];
+
+function playServerEffect() {
+  const container = document.querySelector(".container");
+  container.classList.remove("shake");
+  void container.offsetWidth;
+  container.classList.add("shake");
+  container.addEventListener("animationend", () => container.classList.remove("shake"), { once: true });
+
+  let terminal = document.getElementById("serverTerminal");
+  if (!terminal) {
+    terminal = document.createElement("div");
+    terminal.id = "serverTerminal";
+    terminal.className = "server-terminal";
+    terminal.innerHTML = `<div id="serverTerminalText"></div>`;
+    document.body.appendChild(terminal);
+  }
+
+  const textEl = document.getElementById("serverTerminalText");
+  textEl.innerHTML = "";
+  terminal.classList.add("show");
+
+  let lineIndex = 0;
+  const addLine = () => {
+    if (lineIndex >= serverLines.length) {
+      setTimeout(() => terminal.classList.remove("show"), 2000);
+      return;
+    }
+    const line = document.createElement("div");
+    line.textContent = serverLines[lineIndex++];
+    textEl.appendChild(line);
+    setTimeout(addLine, 420);
+  };
+  addLine();
 }
 
 const nikonikoVideo = document.getElementById("nikonikoVideo");
@@ -277,63 +420,73 @@ const rankingForm = document.getElementById("rankingForm");
 const rankingNameInput = document.getElementById("rankingName");
 const rankingMessage = document.getElementById("rankingMessage");
 
-async function loadRanking() {
-  rankingList.innerHTML = "<li>読み込み中...</li>";
-  const { data, error } = await supabaseClient
-    .from("rankings")
-    .select("name, coins")
-    .order("coins", { ascending: false })
-    .limit(10);
+if (
+  openRankingButton &&
+  closeRankingButton &&
+  rankingModal &&
+  rankingList &&
+  rankingForm &&
+  rankingNameInput &&
+  rankingMessage
+) {
+  async function loadRanking() {
+    rankingList.innerHTML = "<li>読み込み中...</li>";
+    const { data, error } = await supabaseClient
+      .from("rankings")
+      .select("name, coins")
+      .order("coins", { ascending: false })
+      .limit(10);
 
-  if (error) {
-    console.error("loadRanking error:", error);
-    rankingList.innerHTML = `<li>取得失敗: ${error.message}</li>`;
-    return;
+    if (error) {
+      console.error("loadRanking error:", error);
+      rankingList.innerHTML = `<li>取得失敗: ${error.message}</li>`;
+      return;
+    }
+
+    rankingList.innerHTML = "";
+    data.forEach((row, index) => {
+      const li = document.createElement("li");
+      li.innerHTML = `<span>${index + 1}. ${row.name}</span><span>${row.coins} コイン</span>`;
+      rankingList.appendChild(li);
+    });
   }
 
-  rankingList.innerHTML = "";
-  data.forEach((row, index) => {
-    const li = document.createElement("li");
-    li.innerHTML = `<span>${index + 1}. ${row.name}</span><span>${row.coins} コイン</span>`;
-    rankingList.appendChild(li);
+  openRankingButton.addEventListener("click", () => {
+    rankingModal.classList.add("open");
+    rankingMessage.textContent = "";
+    loadRanking();
+  });
+
+  closeRankingButton.addEventListener("click", () => {
+    rankingModal.classList.remove("open");
+  });
+
+  rankingModal.addEventListener("click", (event) => {
+    if (event.target === rankingModal) {
+      rankingModal.classList.remove("open");
+    }
+  });
+
+  rankingForm.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const name = rankingNameInput.value.trim();
+    if (!name) return;
+
+    rankingMessage.textContent = "登録中...";
+    const { error } = await supabaseClient
+      .from("rankings")
+      .insert({ name, coins: Math.floor(state.coins) });
+
+    if (error) {
+      console.error("submit ranking error:", error);
+      rankingMessage.textContent = `登録失敗: ${error.message}`;
+      return;
+    }
+
+    rankingMessage.textContent = "登録しました！";
+    loadRanking();
   });
 }
-
-openRankingButton.addEventListener("click", () => {
-  rankingModal.classList.add("open");
-  rankingMessage.textContent = "";
-  loadRanking();
-});
-
-closeRankingButton.addEventListener("click", () => {
-  rankingModal.classList.remove("open");
-});
-
-rankingModal.addEventListener("click", (event) => {
-  if (event.target === rankingModal) {
-    rankingModal.classList.remove("open");
-  }
-});
-
-rankingForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const name = rankingNameInput.value.trim();
-  if (!name) return;
-
-  rankingMessage.textContent = "登録中...";
-  const { error } = await supabaseClient
-    .from("rankings")
-    .insert({ name, coins: Math.floor(state.coins) });
-
-  if (error) {
-    console.error("submit ranking error:", error);
-    rankingMessage.textContent = `登録失敗: ${error.message}`;
-    return;
-  }
-
-  rankingMessage.textContent = "登録しました！";
-  loadRanking();
-});
 
 renderFactories();
 updateDisplay();
