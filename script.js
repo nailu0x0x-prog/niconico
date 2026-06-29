@@ -337,6 +337,9 @@ function performClick() {
 }
 
 clickButton.addEventListener("click", performClick);
+clickButton.addEventListener("keydown", (e) => {
+  if ((e.key === "Enter" || e.key === " ") && e.repeat) e.preventDefault();
+});
 
 function bounceButton() {
   clickButton.classList.remove("bounce");
