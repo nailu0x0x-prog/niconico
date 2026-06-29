@@ -491,5 +491,42 @@ if (
   });
 }
 
+// ===== セーブ / ロード =====
+function saveGame() {
+  const data = {
+    coins: state.coins,
+    perClick: state.perClick,
+    upgradeClickCost: state.upgradeClickCost,
+    autoClickLevel: state.autoClickLevel,
+    autoClickCost: state.autoClickCost,
+    factories: factories.map((f) => ({ id: f.id, count: f.count })),
+  };
+  localStorage.setItem("niconico_save", JSON.stringify(data));
+}
+
+function loadGame() {
+  const raw = localStorage.getItem("niconico_save");
+  if (!raw) return;
+  try {
+    const data = JSON.parse(raw);
+    state.coins           = data.coins           ?? state.coins;
+    state.perClick        = data.perClick        ?? state.perClick;
+    state.upgradeClickCost= data.upgradeClickCost?? state.upgradeClickCost;
+    state.autoClickLevel  = data.autoClickLevel  ?? state.autoClickLevel;
+    state.autoClickCost   = data.autoClickCost   ?? state.autoClickCost;
+    (data.factories ?? []).forEach(({ id, count }) => {
+      const f = factories.find((f) => f.id === id);
+      if (f) f.count = count;
+    });
+  } catch (e) {
+    console.warn("セーブデータの読み込みに失敗しました", e);
+  }
+}
+
+loadGame();
+recalcPerSecond();
+applyAutoClickInterval();
 renderFactories();
 updateDisplay();
+
+setInterval(saveGame, 5000);
